@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 
 export default class AppDragDropDemo extends Component {    
   
-  
-
-
   state = {        
     
     tasks: [{name:"Learn Angular",
@@ -20,7 +17,43 @@ export default class AppDragDropDemo extends Component {
              bgcolor:"skyblue"}          
       ]}
 
-  
+  onDragStart(e,id){
+
+    //console.log("dragstart",id)
+    e.dataTransfer.setData("id",id)
+
+  }
+
+  onDragOver(e){
+
+    e.preventDefault()
+  }
+
+  onDrop(ev,cat){
+
+    let id = ev.dataTransfer.getData("id")
+
+    let tasks = this.state.tasks.filter((task)=>{
+
+      if(task.name == id){
+
+        task.category = cat
+      }
+      return task
+    })
+    console.log(this.state)
+    console.log(tasks)
+
+    this.setState({           
+      ...this.state,           
+      tasks       
+    });
+
+    console.log(this.state)
+
+
+
+  }
   
 
   render () {
@@ -28,7 +61,7 @@ export default class AppDragDropDemo extends Component {
     var tasks = { 
 
     	wip: [], 
-        complete: []        
+      complete: []        
   	}         
 	  this.state.tasks.forEach ((t) => {               
 	    
@@ -55,9 +88,9 @@ export default class AppDragDropDemo extends Component {
 
       <div className="container-drag">
      	
-     	<h2 className="header">DRAG & DROP DEMO</h2>                  
+     	  <h2 className="header">DRAG & DROP DEMO</h2>                  
      	
-     	<div className="wip" 
+     	  <div className="wip" 
        		
        		onDragOver={(e)=>this.onDragOver(e)}                    
        		
@@ -68,9 +101,9 @@ export default class AppDragDropDemo extends Component {
       		
       		{tasks.wip}                
      	
-     	</div>                
+     	  </div>                
      	
-     	<div className="droppable"
+     	  <div className="droppable"
       		
       		onDragOver={(e)=>this.onDragOver(e)}                    
       		
@@ -83,7 +116,7 @@ export default class AppDragDropDemo extends Component {
       	
       	</div>              
  	  
- 	  </div>
+ 	    </div>
     
 
     );
